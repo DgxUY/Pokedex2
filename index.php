@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 header('Content-Type: application/json');
@@ -21,16 +22,14 @@ $pathParts = explode('/', trim($path, '/'));
 $controller = new PokemonController();
 
 
-
-
 // ROUTING - Decidir qué hacer según la URL
 if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon') {
-    
+
     // Caso 1: /api/pokemon/25 (buscar un Pokémon)
     if (isset($pathParts[2]) && !isset($pathParts[3])) {
         $identifier = $pathParts[2];
         $pokemon = $controller->search($identifier);
-        
+
         echo json_encode([
             'success' => true,
             'data' => [
@@ -40,29 +39,17 @@ if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon')
             ]
         ]);
     }
-    
-    // Caso 2: /api/pokemon/evolutions/1 (evoluciones)
-    elseif ($pathParts[2] === 'evolutions' && isset($pathParts[3])) {
-        $identifier = $pathParts[3];
-        $evolutions = $controller->getEvolutionLine($identifier);
-        
-        echo json_encode([
-            'success' => true,
-            'data' => $evolutions
-        ]);
-    }
-    
-    // Caso 3: /api/pokemon?type=fire (con parámetros)
+
     else {
+
         if (isset($_GET['type'])) {
-            $pokemonList = $controller->getPokemonByType($_GET['type']);
+            $pokemonList = $controller->getByType($_GET['type']);
             echo json_encode([
                 'success' => true,
                 'data' => $pokemonList
             ]);
-        }
-        elseif (isset($_GET['generation'])) {
-            $pokemonList = $controller->getPokemonByGen((int)$_GET['generation']);
+        } elseif (isset($_GET['generation'])) {
+            $pokemonList = $controller->getByGen((int)$_GET['generation']);
             echo json_encode([
                 'success' => true,
                 'data' => $pokemonList
@@ -70,4 +57,3 @@ if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon')
         }
     }
 }
-?>

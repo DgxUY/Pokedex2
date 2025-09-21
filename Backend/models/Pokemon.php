@@ -43,7 +43,7 @@ class Pokemon
         );
     }
 
-    public static function getPokemonByGen(int $gen): array
+    public static function getByGen(int $gen): array
     {
         $url = POKEAPI_URL . "generation/" . $gen;
         $response = file_get_contents($url);
@@ -56,7 +56,7 @@ class Pokemon
         return $pokemon_names;
     }
 
-    public static function getPokemonByType(string $type): array
+    public static function getByType(string $type): array
     {
         $url = POKEAPI_URL . "type/" . strtolower($type);
         $response = file_get_contents($url);

@@ -9,14 +9,14 @@ class PokemonController
         return Pokemon::search($identifier);
     } 
 
-    public function getPokemonByGen(int $gen): array
+    public function getByGen(int $gen): array
     {
-        return Pokemon::getPokemonByGen($gen);
+        return Pokemon::getByGen($gen);
     }
 
-    public function getPokemonByType(string $type): array
+    public function getByType(string $type): array
     {
-        return Pokemon::getPokemonByType($type);
+        return Pokemon::getByType($type);
     }
 
     public function getEvolutionLine(int|string $identifier): ?array
