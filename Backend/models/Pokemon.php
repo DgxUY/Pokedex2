@@ -113,7 +113,7 @@ class Pokemon
 // $pokemon = Pokemon::getPokemonByGen(1);
 // echo implode(" , ", $pokemon);
 
-$pokemon = Pokemon::search("Bulbasaur");
-echo implode(" , ", array_map(function($stat) { return $stat["base_stat"]; }, $pokemon->stats));
-echo "\n";
-echo implode(" , ", array_map(function($move) { return $move["move"]["name"]; }, $pokemon->moves));
+// $pokemon = Pokemon::search("Bulbasaur");
+// echo implode(" , ", array_map(function($stat) { return $stat["base_stat"]; }, $pokemon->stats));
+// echo "\n";
+// echo implode(" , ", array_map(function($move) { return $move["move"]["name"]; }, $pokemon->moves));
