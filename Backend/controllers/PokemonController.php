@@ -30,4 +30,4 @@ class PokemonController
         return Pokemon::getByAbility($ability);
     }
 
-}
+} 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/config/config.php';
 
-
 class Pokemon
 {
 
@@ -146,19 +145,3 @@ class Pokemon
 }
 
 
-
-
-// $pokemon = Pokemon::search("Bulbasaur");
-// echo implode(" , ", $pokemon->getEvolutionLine());
-
-
-// $pokemon = Pokemon::getPokemonByType("grass");
-// echo implode(" , ", $pokemon);
-
-// $pokemon = Pokemon::getPokemonByGen(1);
-// echo implode(" , ", $pokemon);
-
-// $pokemon = Pokemon::search("Bulbasaur");
-// echo implode(" , ", array_map(function($stat) { return $stat["base_stat"]; }, $pokemon->stats));
-// echo "\n";
-// echo implode(" , ", array_map(function($move) { return $move["move"]["name"]; }, $pokemon->moves));
