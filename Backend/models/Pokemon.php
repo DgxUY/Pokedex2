@@ -5,9 +5,6 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/config/config.php';
 
 
-// __DIR__ = directorio actual
-// dirname(__DIR__) = directorio padre
-
 class Pokemon
 {
 
