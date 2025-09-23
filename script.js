@@ -7,6 +7,9 @@ const resultDiv2 = document.getElementById("result2");
 const abilityInput = document.getElementById("ability");
 const searchButton3 = document.getElementById("search3");
 const resultDiv3 = document.getElementById("result3");
+const loadMoreButton = document.getElementById("load-more");
+
+
 
 searchButton.addEventListener("click", () => {
   const pokemonName = pokemonInput.value;
@@ -51,3 +54,37 @@ searchButton3.addEventListener("click", () => {
       console.error("No se encontro la habilidad");
     });
 });
+
+
+let pokemonCount = 0;
+let allPokemonHTML = '';
+
+async function preloadPokemon() {
+    await loadPokemon();
+}
+
+async function loadPokemon() {
+    const startIndex = pokemonCount + 1;
+    const endIndex = pokemonCount + 3;
+    
+    for (let i = startIndex; i <= endIndex; i++) {
+        await fetch(`/api/pokemon/${i}`)
+            .then((response) => response.json())
+            .then((result) => {
+                allPokemonHTML += `
+                    <div class="pokemon-card">
+                        <p>${result.data.name}</p>
+                        <p>${result.data.types.map((type) => type.type.name).join(", ")}</p>
+                        <img src="${result.data.sprites.front_default}">
+                    </div>
+                `;
+            });
+    }
+    pokemonCount = endIndex;
+    resultDiv.innerHTML = allPokemonHTML;
+}
+
+loadMoreButton.addEventListener("click", loadPokemon);
+preloadPokemon();
+
+
