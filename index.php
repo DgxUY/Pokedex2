@@ -96,6 +96,21 @@ if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon')
                 'success' => true,
                 'data' => $pokemonList
             ]);
+        } elseif (isset($_GET['details'])) {
+            $pokemon = $controller->search($_GET['details']);
+
+            if ($pokemon === null) {
+                http_response_code(404);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Pokemon not found'
+                ]);
+                exit;
+            }
+            echo json_encode([
+                'success' => true,
+                'data' => $pokemon
+            ]);
         }
     }
 }
