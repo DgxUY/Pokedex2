@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+// Headers CORS completos
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 require_once __DIR__ . '/Backend/config/config.php';
 require_once __DIR__ . '/Backend/controllers/PokemonController.php';
@@ -30,26 +33,65 @@ if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon')
         $identifier = $pathParts[2];
         $pokemon = $controller->search($identifier);
 
+        if ($pokemon === null) {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Pokemon not found'
+            ]);
+            exit;
+        }
         echo json_encode([
             'success' => true,
-            'data' => [
-                'id' => $pokemon->id,
-                'name' => ucfirst($pokemon->name),
-                'types' => $pokemon->types
-            ]
+            'data' => $pokemon
         ]);
-    }
+    } else {
 
-    else {
-
+        // Caso 2: /api/pokemon?type=water (buscar Pokémon por tipo)
         if (isset($_GET['type'])) {
             $pokemonList = $controller->getByType($_GET['type']);
+
+            if ($pokemonList === null) {
+                http_response_code(404);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Type not found'
+                ]);
+                exit;
+            }
             echo json_encode([
                 'success' => true,
                 'data' => $pokemonList
             ]);
+
+            // Caso 3: /api/pokemon?generation=2 (buscar Pokémon por generación) 
         } elseif (isset($_GET['generation'])) {
             $pokemonList = $controller->getByGen((int)$_GET['generation']);
+
+            if ($pokemonList === null) {
+                http_response_code(404);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Generation not found'
+                ]);
+                exit;
+            }
+            echo json_encode([
+                'success' => true,
+                'data' => $pokemonList
+            ]);
+            // Caso 4: /api/pokemon?ability=water (buscar Pokémon por habilidad)
+        } elseif (isset($_GET['ability'])) {
+            $pokemonList = $controller->getByAbility($_GET['ability']);
+
+            if ($pokemonList === null) {
+                http_response_code(404);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Ability not found'
+                ]);
+                exit;
+            }
             echo json_encode([
                 'success' => true,
                 'data' => $pokemonList

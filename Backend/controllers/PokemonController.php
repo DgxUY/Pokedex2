@@ -9,12 +9,12 @@ class PokemonController
         return Pokemon::search($identifier);
     } 
 
-    public function getByGen(int $gen): array
+    public function getByGen(int $gen): ?array
     {
         return Pokemon::getByGen($gen);
     }
 
-    public function getByType(string $type): array
+    public function getByType(string $type): ?array
     {
         return Pokemon::getByType($type);
     }
@@ -25,5 +25,9 @@ class PokemonController
         return $pokemon?->getEvolutionLine(); 
     }
 
+    public function getByAbility(string $ability): ?array
+    {
+        return Pokemon::getByAbility($ability);
+    }
 
 }

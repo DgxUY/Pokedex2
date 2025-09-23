@@ -28,6 +28,9 @@ class Pokemon
 
         $url = POKEAPI_URL . "pokemon/" . $identifier;
         $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
         $data = json_decode($response, true);
 
         return new self(
@@ -43,10 +46,46 @@ class Pokemon
         );
     }
 
-    public static function getByGen(int $gen): array
+    public static function getAbilities(): ?array
+    {
+        $url = POKEAPI_URL . "ability?limit=1000";
+        $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
+
+        $data = json_decode($response, true);
+
+        $abilities = [];
+        foreach ($data["results"] as $ability_data) {
+            $abilities[] = $ability_data["name"];
+        }
+        return $abilities;
+    }
+
+    public static function getByAbility(string $ability): ?array
+    {
+        $url = POKEAPI_URL . "ability/" . $ability;
+        $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
+        $data = json_decode($response, true);
+
+        $pokemon_names = [];
+        foreach ($data["pokemon"] as $pokemon_data) {
+            $pokemon_names[] = $pokemon_data["pokemon"]["name"];
+        }
+        return $pokemon_names;
+    }
+
+    public static function getByGen(int $gen): ?array
     {
         $url = POKEAPI_URL . "generation/" . $gen;
         $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
         $data = json_decode($response, true);
 
         $pokemon_names = [];
@@ -56,10 +95,13 @@ class Pokemon
         return $pokemon_names;
     }
 
-    public static function getByType(string $type): array
+    public static function getByType(string $type): ?array
     {
         $url = POKEAPI_URL . "type/" . strtolower($type);
         $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
         $data = json_decode($response, true);
 
         $pokemon_names = [];
@@ -71,22 +113,28 @@ class Pokemon
         return $pokemon_names;
     }
 
-    public function getDetails(): array
+    public function getDetails(): ?array
     {
         $url = POKEAPI_URL . "pokemon-species/" . $this->id;
         $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
         $data = json_decode($response, true);
         return $data;
     }
 
-    public function getEvolutionChain(): array
+    public function getEvolutionChain(): ?array
     {
         $url = $this->getDetails()["evolution_chain"]["url"];
         $response = file_get_contents($url);
+        if ($response === false) {
+            return null;
+        }
         return json_decode($response, true);
     }
 
-    public function getEvolutionLine(): array
+    public function getEvolutionLine(): ?array
     {
         $evolution_chain = $this->getEvolutionChain();
         $evolution_line = [];
