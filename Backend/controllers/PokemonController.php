@@ -19,15 +19,23 @@ class PokemonController
         return Pokemon::getByType($type);
     }
 
-    public function getEvolutionLine(int|string $identifier): ?array
+    public function getDetails(string|int  $identifier): ?array
+    {
+        return Pokemon::search($identifier)->getDetails($identifier);
+    }
+
+/*
+     public function getEvolutionLine(int|string $identifier): ?array
     {
         $pokemon = Pokemon::search($identifier);
         return $pokemon?->getEvolutionLine(); 
     }
 
+*/
     public function getByAbility(string $ability): ?array
     {
         return Pokemon::getByAbility($ability);
     }
+
 
 } 

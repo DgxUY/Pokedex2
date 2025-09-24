@@ -16,14 +16,11 @@ searchButton.addEventListener("click", () => {
   fetch(`/api/pokemon/${pokemonName}`)
     .then((response) => response.json())
     .then((result) => {
-      resultDiv.innerHTML = `<p>${result.data.name}</p>
+      resultDiv.innerHTML = `
+         <p>${result.data.name}</p>
          <p>${result.data.types.map((type) => type.type.name).join(", ")}</p>
-         <p>${result.data.moves
-           .slice(0, 10)
-           .map((move) => move.move.name)
-           .join(", ")}</p>
-         <p>${result.data.stats.map((stat) => stat.base_stat).join(", ")}</p>
          <img src="${result.data.sprites.front_default}"></img>
+         <button id="See details">See details</button>
          `;
     })
     .catch((error) => {
@@ -55,33 +52,37 @@ searchButton3.addEventListener("click", () => {
     });
 });
 
+resultDiv.addEventListener("click", () => {
+    
+})
+
 
 let pokemonCount = 0;
 let allPokemonHTML = '';
 
 async function preloadPokemon() {
-    await loadPokemon();
+  await loadPokemon();
 }
 
 async function loadPokemon() {
-    const startIndex = pokemonCount + 1;
-    const endIndex = pokemonCount + 3;
-    
-    for (let i = startIndex; i <= endIndex; i++) {
-        await fetch(`/api/pokemon/${i}`)
-            .then((response) => response.json())
-            .then((result) => {
-                allPokemonHTML += `
+  const startIndex = pokemonCount + 1;
+  const endIndex = pokemonCount + 3;
+
+  for (let i = startIndex; i <= endIndex; i++) {
+    await fetch(`/api/pokemon/${i}`)
+      .then((response) => response.json())
+      .then((result) => {
+        allPokemonHTML += `
                     <div class="pokemon-card">
                         <p>${result.data.name}</p>
                         <p>${result.data.types.map((type) => type.type.name).join(", ")}</p>
                         <img src="${result.data.sprites.front_default}">
                     </div>
                 `;
-            });
-    }
-    pokemonCount = endIndex;
-    resultDiv.innerHTML = allPokemonHTML;
+      });
+  }
+  pokemonCount = endIndex;
+  resultDiv.innerHTML = allPokemonHTML;
 }
 
 loadMoreButton.addEventListener("click", loadPokemon);

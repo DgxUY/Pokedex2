@@ -97,7 +97,7 @@ if ($method === 'GET' && $pathParts[0] === 'api' && $pathParts[1] === 'pokemon')
                 'data' => $pokemonList
             ]);
         } elseif (isset($_GET['details'])) {
-            $pokemon = $controller->search($_GET['details']);
+            $pokemon = $controller->getDetails($_GET['details']);
 
             if ($pokemon === null) {
                 http_response_code(404);
