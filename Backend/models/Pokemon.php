@@ -117,17 +117,9 @@ class Pokemon
             return null;
         }
         $data = json_decode($response, true);
-        $lil_data = [];
-        $lil_data[] = $data["color"]["name"];
-        $lil_data[] = $data["flavor_text_entries"][0]["flavor_text"];
-        return $lil_data;
+        return $data;
     }
 
-
-}
-
-
-/*
     public function getEvolutionChain(): ?array
     {
         $url = $this->getDetails()["evolution_chain"]["url"];
@@ -150,5 +142,11 @@ class Pokemon
         }
         return $evolution_line;
     }
+
+}
+
+
+/*
+   
 
 */

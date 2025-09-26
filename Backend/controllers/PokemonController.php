@@ -24,14 +24,14 @@ class PokemonController
         return Pokemon::search($identifier)->getDetails($identifier);
     }
 
-/*
+
      public function getEvolutionLine(int|string $identifier): ?array
     {
         $pokemon = Pokemon::search($identifier);
         return $pokemon?->getEvolutionLine(); 
     }
 
-*/
+
     public function getByAbility(string $ability): ?array
     {
         return Pokemon::getByAbility($ability);
